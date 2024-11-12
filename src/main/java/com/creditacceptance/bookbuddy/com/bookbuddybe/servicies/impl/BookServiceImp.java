@@ -6,7 +6,7 @@ import com.creditacceptance.bookbuddy.com.bookbuddybe.exceptions.ResourceNotFoun
 import com.creditacceptance.bookbuddy.com.bookbuddybe.mapper.BookMapper;
 import com.creditacceptance.bookbuddy.com.bookbuddybe.repositories.BookRepository;
 import com.creditacceptance.bookbuddy.com.bookbuddybe.servicies.BookService;
-import lombok.AllArgsConstrutor;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
@@ -30,7 +30,7 @@ public class BookServiceImp implements BookService {
         return BookMapper.mapToBookDto(savedBook);
     }
 
-    @override
+    @Override
     public BookDto getBookById(Long id) {
         Book book = bookRepository.findById(id).orElseThrow(()->new ResourceNotFound("Book with given id not found!"));
         return BookMapper.mapToBookDto(book);
