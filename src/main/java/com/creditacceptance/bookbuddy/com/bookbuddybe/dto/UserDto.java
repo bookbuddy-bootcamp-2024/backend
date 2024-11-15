@@ -5,17 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class BookDto {
+public class UserDto {
     private Long id;
-    private String title;
-    private String description;
-    private String coverimage;
-    private String author;
-    private boolean available;
+    private String firstname;
+    private String lastname;
+    private String email;
 }

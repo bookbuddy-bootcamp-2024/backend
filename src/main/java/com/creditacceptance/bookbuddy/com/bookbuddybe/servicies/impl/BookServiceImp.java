@@ -9,6 +9,9 @@ import com.creditacceptance.bookbuddy.com.bookbuddybe.servicies.BookService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Service
 @AllArgsConstructor
@@ -34,5 +37,12 @@ public class BookServiceImp implements BookService {
     public BookDto getBookById(Long id) {
         Book book = bookRepository.findById(id).orElseThrow(()->new ResourceNotFound("Book with given id not found!"));
         return BookMapper.mapToBookDto(book);
+    }
+
+    @Override
+    public List<BookDto> getAllBooks() {
+        List<Book> books = bookRepository.findAll();
+
+        return books.stream().map(BookMapper::mapToBookDto).collect(Collectors.toList());
     }
 }

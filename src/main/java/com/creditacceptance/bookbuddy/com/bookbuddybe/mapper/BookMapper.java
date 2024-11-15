@@ -6,9 +6,9 @@ import com.creditacceptance.bookbuddy.com.bookbuddybe.entities.Book;
 
 public class BookMapper {
     public static BookDto mapToBookDto(Book book) {
-        return new BookDto(book.getId(), book.getTitle(), book.getDescription(), book.getCoverimage(), book.isAvailable());
+        return new BookDto(book.getId(), book.getTitle(), book.getDescription(), book.getCoverimage(), book.getAuthor(), book.isAvailable());
     }
     public static Book mapToBook(BookDto bookDto) {
-        return new Book(bookDto.getId(), bookDto.getTitle(), bookDto.getDescription(), bookDto.getCoverimage(), bookDto.isAvailable());
+        return new Book(bookDto.getId(), bookDto.getTitle(), bookDto.getDescription(), bookDto.getCoverimage(), bookDto.getAuthor(), bookDto.isAvailable());
     }
 }

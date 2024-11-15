@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@CrossOrigin("*")
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/books")
@@ -25,5 +28,10 @@ public class BookController {
         BookDto bookDto = bookService.getBookById(id);
         return ResponseEntity.ok(bookDto);
 
+    }
+    @GetMapping
+    public ResponseEntity<List<BookDto>> getAllBooks() {
+       List<BookDto> bookDtoList = bookService.getAllBooks();
+       return ResponseEntity.ok(bookDtoList);
     }
 }
