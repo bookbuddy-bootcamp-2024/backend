@@ -9,6 +9,14 @@ public class BookMapper {
         return new BookDto(book.getId(), book.getTitle(), book.getDescription(), book.getCoverimage(), book.getAuthor(), book.isAvailable());
     }
     public static Book mapToBook(BookDto bookDto) {
-        return new Book(bookDto.getId(), bookDto.getTitle(), bookDto.getDescription(), bookDto.getCoverimage(), bookDto.getAuthor(), bookDto.isAvailable());
+
+        Book book = new Book();
+        book.setTitle(bookDto.getTitle());
+        book.setDescription(bookDto.getDescription());
+        book.setCoverimage(bookDto.getCoverimage());
+        book.setAuthor(bookDto.getAuthor());
+        book.setAvailable(bookDto.isAvailable());
+
+        return book;
     }
 }

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 
 @Getter
 @Setter
@@ -30,4 +32,7 @@ public class Book {
     private String author;
 
     private boolean available;
+
+    @OneToMany(mappedBy = "book")
+    private Set<Reservation> reservationSet;
 }

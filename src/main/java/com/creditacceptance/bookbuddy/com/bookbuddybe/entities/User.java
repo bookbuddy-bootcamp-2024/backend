@@ -6,13 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
-
 
 public class User {
     @Id
@@ -21,4 +22,6 @@ public class User {
     private String firstname;
     private String lastname;
     private String email;
+    @OneToMany(mappedBy = "user")
+    private Set<Reservation> reservations;
 }
