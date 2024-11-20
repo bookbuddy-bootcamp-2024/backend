@@ -37,4 +37,11 @@ public class ReservationServiceImpl implements ReservationService {
     public ReservationDto getReservationById(Long id) {
         return null;
     }
+
+    @Override
+    public void deleteReservationById(Long id) {
+        Reservation restoDelete = reservationRepository.findById(id).orElseThrow(()-> new ResourceNotFound("No reservation found with that id"));
+        reservationRepository.delete(restoDelete);
+
+    }
 }

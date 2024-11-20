@@ -39,6 +39,16 @@ public class BookServiceImp implements BookService {
         return BookMapper.mapToBookDto(book);
     }
 
+
+    @Override
+    public BookDto updateBook(BookDto bookDto, Long id) {
+        // find the book we want to update;
+        Book book = bookRepository.findById(id).orElseThrow(()->new ResourceNotFound("Book with given id not found!"));
+        book.setAvailable(bookDto.isAvailable());
+        Book savedBook = bookRepository.save(book);
+        return BookMapper.mapToBookDto(savedBook);
+    }
+
     @Override
     public List<BookDto> getAllBooks() {
         List<Book> books = bookRepository.findAll();

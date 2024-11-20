@@ -6,6 +6,7 @@ import com.creditacceptance.bookbuddy.com.bookbuddybe.servicies.BookService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
 public class BookController {
     private BookService bookService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<BookDto> createBook(@RequestBody BookDto bookDto) {
         BookDto bookDtoSaved = bookService.createBook(bookDto);
@@ -33,5 +35,10 @@ public class BookController {
     public ResponseEntity<List<BookDto>> getAllBooks() {
        List<BookDto> bookDtoList = bookService.getAllBooks();
        return ResponseEntity.ok(bookDtoList);
+    }
+    @PutMapping("{id}")
+    public ResponseEntity<BookDto> updateBook(@PathVariable("id") Long id, @RequestBody BookDto bookDto) {
+        BookDto updatedBook = bookService.updateBook(bookDto, id);
+        return ResponseEntity.ok(updatedBook);
     }
 }
