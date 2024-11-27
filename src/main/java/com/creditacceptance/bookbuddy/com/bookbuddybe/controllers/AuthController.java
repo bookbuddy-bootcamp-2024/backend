@@ -1,5 +1,6 @@
 package com.creditacceptance.bookbuddy.com.bookbuddybe.controllers;
 
+import com.creditacceptance.bookbuddy.com.bookbuddybe.dto.JwtAuthResponseDto;
 import com.creditacceptance.bookbuddy.com.bookbuddybe.dto.LoginDto;
 import com.creditacceptance.bookbuddy.com.bookbuddybe.dto.RegisterDto;
 import com.creditacceptance.bookbuddy.com.bookbuddybe.servicies.AuthService;
@@ -23,8 +24,10 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
-        String response = authService.login(loginDto);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<JwtAuthResponseDto> login(@RequestBody LoginDto loginDto) {
+        String token = authService.login(loginDto);
+        JwtAuthResponseDto jwtAuthResponseDto = new JwtAuthResponseDto();
+        jwtAuthResponseDto.setAccessToken(token);
+        return new ResponseEntity<>(jwtAuthResponseDto, HttpStatus.OK);
     }
 }

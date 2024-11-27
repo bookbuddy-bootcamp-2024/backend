@@ -1,6 +1,8 @@
 package com.creditacceptance.bookbuddy.com.bookbuddybe.config;
 
 
+import com.creditacceptance.bookbuddy.com.bookbuddybe.security.JWTAuthenticationentryPoint;
+import com.creditacceptance.bookbuddy.com.bookbuddybe.security.JwtAuthenticationFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableMethodSecurity
@@ -24,19 +27,23 @@ import org.springframework.security.web.SecurityFilterChain;
 
 public class SpringSecurityConfig {
     private  UserDetailsService userDetailsService;
+    private JWTAuthenticationentryPoint jwtAuthenticationentryPoint;
     @Bean
     public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
         http.csrf((csrf)->csrf.disable()).authorizeHttpRequests((authorize)->{
 //            authorize.requestMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN");
 //            authorize.requestMatchers(HttpMethod.GET, "/api/**").hasRole("USER");
             authorize.requestMatchers("/api/auth/**").permitAll();
             authorize.anyRequest().authenticated();
         }).httpBasic(Customizer.withDefaults());
+
+        http.exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthenticationentryPoint));
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

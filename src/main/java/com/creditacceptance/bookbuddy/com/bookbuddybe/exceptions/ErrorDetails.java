@@ -2,13 +2,18 @@ package com.creditacceptance.bookbuddy.com.bookbuddybe.exceptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.http.HttpStatus;
+
+import java.time.LocalDateTime;
 
 @Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 
-public class BookBuddyAPIException extends RuntimeException{
-    private HttpStatus status;
+public class ErrorDetails {
+    private LocalDateTime timestamp;
     private String message;
+    private String details;
 }
