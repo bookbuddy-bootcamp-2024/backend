@@ -12,8 +12,10 @@ import com.creditacceptance.bookbuddy.com.bookbuddybe.servicies.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,10 +31,10 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
-    private final JwtTokenProvider jwtTokenProvider;
+    private JwtTokenProvider jwtTokenProvider;
 
     @Override
-    public String register(RegisterDto registerDto) {
+    public String register(RegisterDto registerDto) throws AuthenticationException {
         //check if user is in the db or not - if user is in db, throw an exception
         if(userRepository.existsByEmail(registerDto.getEmail())) {
             throw new BookBuddyAPIException(HttpStatus.BAD_REQUEST, "Email is already in use");
@@ -53,6 +55,7 @@ public class AuthServiceImpl implements AuthService {
         user.setEmail(registerDto.getEmail());
         Set<Role> roles = new HashSet<>();
         Role userRole = roleRepository.findByName("ROLE_USER");
+
         roles.add(userRole);
         user.setRoles(roles);
         userRepository.save(user);
@@ -75,7 +78,9 @@ public class AuthServiceImpl implements AuthService {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return jwtTokenProvider.generateToken(authentication);
+        String token = jwtTokenProvider.generateToken(authentication);
+        return token;
+
 
     }
 }
